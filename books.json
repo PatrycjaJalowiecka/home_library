@@ -1,0 +1,21 @@
+[
+    {
+      "id": 1,
+      "title": "Homo bimbrownikus",
+      "Author": "Andrzej Pilipiuk",
+      "Year": "2009",
+      "genre": "fantasy",
+      "description": "Opowiadania o dokonaniach Jakuba Wędrowycza i Semena Korczaszko",
+      "image": "image.jpg"
+      
+    },
+    {
+        "id": 2,
+        "title": "Carpe Jugulum",
+        "Author": "Terry Pratchett",
+        "Year": "1998",
+        "genre": "fantasy",
+        "description": "Rozgrywka między czarownicami a wampirami z innymi bohaterami w tle",
+        "image": "image1.jpg"
+    }
+  ]
