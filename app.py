@@ -4,18 +4,18 @@ from models import books
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "nininini"
 
-@app.route("/api/v1/books/", methods=["GET"])
+@app.route("/api/v1/library/", methods=["GET"])
 def books_list_api_v1():
     return jsonify(books.all())
 
-@app.route("/api/v1/books/<int:book_id>", methods=["GET"])
+@app.route("/api/v1/library/<int:book_id>", methods=["GET"])
 def get_book(book_id):
     book = books.get(book_id)
     if not book:
         abort(404)
-    return jsonify({"book": book})
+    return jsonify(book)
 
-@app.route("/api/v1/books/", methods=["POST"])
+@app.route("/api/v1/library/", methods=["POST"])
 def create_book():
     if not request.json or not 'title' in request.json:
         abort(400)
@@ -29,16 +29,16 @@ def create_book():
         'image' : request.json['image.jpg']
     }
     books.create(book)
-    return jsonify({'book': book}), 201
+    return jsonify(book), 201
 
-@app.route("/api/v1/books/<int:book_id>", methods=['DELETE'])
+@app.route("/api/v1/library/<int:book_id>", methods=['DELETE'])
 def delete_book(book_id):
     result = books.delete(book_id)
     if not result:
         abort(404)
     return jsonify({'result': result})
 
-@app.route("/api/v1/todos/<int:todo_id>", methods=["PUT"])
+@app.route("/api/v1/library/<int:book_id>", methods=["PUT"])
 def update_book(book_id):
     book = books.get(book_id)
     if not book:
@@ -56,6 +56,7 @@ def update_book(book_id):
     ]):
         abort(400)
     book = {
+        'id': data.get('id', book['id']),
         'title': data.get('title', book['title']),
         'author': data.get('auhor', book['author']),
         'year': data.get('year', book['year']),
@@ -64,7 +65,7 @@ def update_book(book_id):
         'image': data.get('image', book['image'])
     }
     books.update(book_id, book)
-    return jsonify({'book': book})
+    return jsonify(book)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -72,7 +73,7 @@ def not_found(error):
 
 @app.errorhandler(400)
 def bad_request(error):
-    return make_response(jsonify({'error': 'Bad request', 'status_code': 400}), 400)
+    return make_response(({'error': 'Bad request', 'status_code': 400}), 400)
 
 if __name__ == "__main__":
     app.run(debug=True)

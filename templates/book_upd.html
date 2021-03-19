@@ -1,0 +1,24 @@
+{% extends 'books_main.html' %}
+
+{% block head %}
+	<title>Aktualizacja książek</title>
+{% endblock %}
+
+{% block body %}
+<body>
+    <h2> Zaktualizuj książkę </h2>
+    <form method="POST" action="/library/{{ book_id }}/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Go">
+    </form>
+</body>
+{% endblock %}  
+

@@ -6,7 +6,7 @@
       "Year": "2009",
       "genre": "fantasy",
       "description": "Opowiadania o dokonaniach Jakuba Wędrowycza i Semena Korczaszko",
-      "image": "image.jpg"
+      "image": "image.jpg https://fabrykaslow.com.pl/wp/wp-content/uploads/2017/12/PILIPIUK_06-Homobimbrownikus_2D-mala.jpg"
       
     },
     {
@@ -16,6 +16,24 @@
         "Year": "1998",
         "genre": "fantasy",
         "description": "Rozgrywka między czarownicami a wampirami z innymi bohaterami w tle",
-        "image": "image1.jpg"
-    }
+        "image": "image1.jpg, https://a.allegroimg.com/s128/118c11/b8f8eaca40cda95fbfdabaacaff6/Carpe-Jugulum-wyd-Proszynski"
+    },
+    {
+      "id": 3,
+      "title": "Każde martwe marzenie, Opowieści z meekhańskiego pogranicza",
+      "Author": "Robert M.Wegner",
+      "Year": "2018",
+      "genre": "fantasy",
+      "description": "Epicki fresk z intrygami ludzi, bogów i tajemnic",
+      "image": "image2.jpg https://powergraph.pl/uploads/catalog/product/cover/89/large_Wegner_KMM_front_1000.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Wspomnij Phlebasa",
+    "Author": "Ian M.Banks",
+    "Year": "1998",
+    "genre": "Sci-Fi",
+    "description": "Losy ostatniego Metamorfa na tle wojny Kultury i Iradian",
+    "image": "image3.jpg https://www.proszynski.pl/images/media/products//wspomnijphlebasa.jpg"
+  }
   ]

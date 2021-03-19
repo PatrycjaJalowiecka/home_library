@@ -1,0 +1,47 @@
+{% extends 'books_main.html' %}
+
+{% block head %}
+	<title>Biblioteka</title>
+{% endblock %}
+
+{% block body %}
+
+<h1>Lista książek</h1>
+
+<table>
+    <thead>
+        <th>Tytuł</th>
+        <th>Autor</th>
+        <th>Rok</th>
+        <th>Gatunek</th>
+        <th>Opis</th>
+        <th>Zdjęcie</th>
+    </thead>
+{% for book in books %}
+    <tr>
+        <td><a href="/api/v1/library/{{ loop.index }}">{{ book.title }}</a></td>
+        <td>{{ book.author }}</td>
+        <td>{{ book.year }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.description }}</td>
+        <td>{{ book.image }}</td>
+    </tr>
+{% endfor %}
+</table>
+<div>
+    <h2> Dodaj książkę: </h2>
+    <form method="POST" action="/library/">
+        {{ form.hidden_tag() }}
+        <table>
+            {% for field in form if field.widget.input_type != 'hidden' %}
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <input type="submit" value="Go">
+    </form>
+</div>
+
+{% endblock %}

@@ -18,28 +18,26 @@ class Books:
         return []
 
     def create(self, data):
-        data.pop('csrf_token')
         self.books.append(data)
         self.save_all()
-
-    def delete(self, id):
-        book = self.get(id)
-        if book:
-            self.books.remove(book)
-            self.save_all()
-            return True
-        return False
 
     def save_all(self):
         with open("books.json", "w") as f:
             json.dump(self.books, f)
 
     def update(self, id, data):
-        data.pop('csrf_token')
         book = self.get(id)
         if book:
             index = self.books.index(book)
             self.books[index] = data
+            self.save_all()
+            return True
+        return False
+
+    def delete(self, id):
+        book = self.get(id)
+        if book:
+            self.books.remove(book)
             self.save_all()
             return True
         return False
