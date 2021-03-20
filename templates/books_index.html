@@ -27,25 +27,25 @@
             <td>{{ book.year }}</td>
             <td>{{ book.genre }}</td>
             <td>{{ book.description }}</td>
-            <td><a href="/delete/{{ loop.books_list }}">Delete</a></td>
-            <td><a href="/update/{{ loop.books_list }}">Update</a></td>
+            <td><a href="/delete/{{ book_id }}">Delete</a></td>
+            <td><a href="/update/{{ book_id }}">Update</a></td>
         </tr>
     {% endfor %}
     </table>
     <div>
         <div class="Add_book">
         <h2> Dodaj książkę: </h2>
-        <form method="POST" action="books_list.html">
+        <form method="POST" action="/books_index.html/">
             {{ form.hidden_tag() }}
             <table>
                 {% for field in form if field.widget.input_type != 'hidden' %}
-                    <tr>
-                        <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
-                        <td>{{ field }}</td>
-                    </tr>
+                <tr>
+                    <th>{{ field.label }} {% if field.flags.required %}*{% endif %}</th>
+                    <td>{{ field }}</td>
+                </tr>
                 {% endfor %}
-            </table>
-            <input type="submit" value="Go">
+            </table><br>
+            <input type="submit" value="Dodaj">
         </form>
             <div class="footer">
                 <h3> Pola zaznaczone <span style="color: rgb(4, 1, 14); font-size: 15px;">" * "</span> są obowiązkowe</h3>

@@ -12,10 +12,7 @@ class Books:
         return self.books
 
     def get(self, id):
-        book = [book for book in self.all() if book['id'] == id]
-        if book:
-            return book[0]
-        return []
+        return self.books(id) 
 
     def create(self, data):
         self.books.append(data)

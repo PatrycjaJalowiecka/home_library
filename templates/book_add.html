@@ -1,13 +1,13 @@
 {% extends 'books_main.html' %}
 
 {% block head %}
-	<title>Dodawanie książek</title>
+	<title>Książka</title>
 {% endblock %}
 
 {% block body %}
 <body>
     <h2> Dodaj książkę </h2>
-    <form method="POST" action="/library/add/">
+    <form method="POST" action="/update/{{ book_id }}/">
         {{ form.hidden_tag() }}
         <table>
             {% for field in form if field.widget.input_type != 'hidden' %}
@@ -16,8 +16,8 @@
                     <td>{{ field }}</td>
                 </tr>
             {% endfor %}
-        </table>
-        <input type="submit" value="Go">
+        </table><br>
+        <input type="submit" value="Submit Changes">
     </form>
 </body>
 {% endblock %}  

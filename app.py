@@ -1,75 +1,46 @@
-from flask import Flask, jsonify, make_response, request, abort, url_for
+from flask import Flask, request, render_template, redirect, url_for, json, make_response, abort
 from models import books
+from LibrForm import LibrForm
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "nininini"
 
-@app.route("/api/v1/library/", methods=["GET"])
-def books_list_api_v1():
-    return jsonify(books.all())
+@app.route("/", methods=["GET", "POST"])
+@app.route("/books_index.html/", methods=["GET" , "POST"])
+def books_list():
+    form = LibrForm()
+    error = ""
+    if request.method == "POST":
+        if form.validate_on_submit():
+            books.create(form.data)
+            books.save_all()
+        return redirect(url_for("books_list"))
 
-@app.route("/api/v1/library/<int:book_id>", methods=["GET"])
-def get_book(book_id):
-    book = books.get(book_id)
-    if not book:
-        abort(404)
-    return jsonify(book)
+    return render_template("books_index.html", form=form, books=books.all(), error=error)
 
-@app.route("/api/v1/library/", methods=["POST"])
-def create_book():
-    if not request.json or not 'title' in request.json:
-        abort(400)
-    book = {
-        'id': books.all()[-1]['id'] + 1,
-        'title': request.json['title'],
-        'author': request.json['author'], 
-        'year': request.json['year'],
-        'genre': request.json['genre'],
-        'description': request.json.get('description', ""),
-        'image' : request.json['image.jpg']
-    }
-    books.create(book)
-    return jsonify(book), 201
-
-@app.route("/api/v1/library/<int:book_id>", methods=['DELETE'])
+@app.route("/delete/<int:book_id>", methods=["GET"])
 def delete_book(book_id):
-    result = books.delete(book_id)
-    if not result:
-        abort(404)
-    return jsonify({'result': result})
-
-@app.route("/api/v1/library/<int:book_id>", methods=["PUT"])
-def update_book(book_id):
-    book = books.get(book_id)
+    form = LibrForm()
+    error = ""
+    book = books.delete(book_id-1)
+    books.save_all()
     if not book:
         abort(404)
-    if not request.json:
-        abort(400)
-    data = request.json
-    if any([
-        'title' in data and not isinstance(data.get('title'), str),
-        'author' in data and not isinstance(data.get('author'), str),
-        'year' in data and not isinstance(data.get('year'), str),
-        'description' in data and not isinstance(data.get('description'), str),
-        'genre' in data and not isinstance(data.get('genre'), str),
-        'image' in data and not isinstance(data.get('image'), str)
-    ]):
-        abort(400)
-    book = {
-        'id': data.get('id', book['id']),
-        'title': data.get('title', book['title']),
-        'author': data.get('auhor', book['author']),
-        'year': data.get('year', book['year']),
-        'description': data.get('description', book['description']),
-        'genre': data.get('genre', book['genre']),
-        'image': data.get('image', book['image'])
-    }
-    books.update(book_id, book)
-    return jsonify(book)
 
-@app.errorhandler(404)
-def not_found(error):
-    return make_response(jsonify({'error': 'Not found', 'status_code': 404}), 404)
+    return render_template("books_index.html", form=form, books=books.all(), error=error) 
+
+@app.route("/update/<int:book_id>/", methods=["GET" , "POST"])
+def update_book(book_id):
+    book = books.get(book_id-1)
+    form = LibrForm(data=book)
+    error = ""
+    if request.method == "POST":
+        if form.validate_on_submit():
+            books.update(book_id - 1, form.data)
+            books.save_all()
+        return redirect(url_for("books_list"))
+
+    return render_template("book_add.html", form=form, book_id=book_id, error=error)
 
 @app.errorhandler(400)
 def bad_request(error):
